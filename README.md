@@ -1,6 +1,6 @@
-Step 1: Download Python
+Step 1: Download Python and download affine images
 Download Python on the website: https://www.python.org/downloads/ following the instruction.
-
+Download affine images in website: https://www.robots.ox.ac.uk/~vgg/research/affine/
 Step 2: Install Libraries:
 numpy
 $ pip install numpy
