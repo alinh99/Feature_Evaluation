@@ -26,7 +26,7 @@ def BF_orb_det(img1, img2):
     # best matches in 2 images
     matches = bf.match(descriptors1, descriptors2)
 
-    correct_matches = len(matches[:10])
+    correct_matches = len(matches[:300])
     correspondences = len(matches)
 
     print(f"All matches of ORB BF: {correspondences}")
@@ -71,7 +71,7 @@ def BF_sift_det(img1, img2):
     # apply David Lowe's ratio test
     good_matches = []
     for m1, m2 in matches:
-        if m1.distance < 0.6 * m2.distance:
+        if m1.distance < 0.9 * m2.distance:
             good_matches.append([m1])
 
     correct_matches = len(good_matches)
@@ -126,7 +126,7 @@ def feat_match_FLANN_sift_visualize(img1, img2):
     # check if it is a good match
     good_match = []
     for i, (m1, m2) in enumerate(matches):
-        if m1.distance < 0.7 * m2.distance:
+        if m1.distance < 0.9 * m2.distance:
             matchesMask[i] = [1, 0]
             good_match.append(matchesMask[i])
 
@@ -168,7 +168,7 @@ def feat_match_FLANN_surf_visualize(img1, img2):
     knn_matches = matcher.knnMatch(des1, des2, 2)
 
     # -- Filter matches using the Lowe's ratio test
-    ratio_thresh = 0.7
+    ratio_thresh = 0.8
     good_matches = []
     for m, n in knn_matches:
         if m.distance < ratio_thresh * n.distance:
@@ -209,34 +209,34 @@ def append_image_in_folder(path):
 
 def run():
     # read lst image
-    img_bark = append_image_in_folder('img/ubc/')
+    img_ubc = append_image_in_folder('img/ubc/')
 
     # ORB BF
-    BF_orb_det(img_bark[0], img_bark[1])
-    BF_orb_det(img_bark[0], img_bark[2])
-    BF_orb_det(img_bark[0], img_bark[3])
-    BF_orb_det(img_bark[0], img_bark[4])
-    BF_orb_det(img_bark[0], img_bark[5])
+    BF_orb_det(img_ubc[0], img_ubc[1])
+    BF_orb_det(img_ubc[0], img_ubc[2])
+    BF_orb_det(img_ubc[0], img_ubc[3])
+    BF_orb_det(img_ubc[0], img_ubc[4])
+    BF_orb_det(img_ubc[0], img_ubc[5])
 
     # SIFT BF
-    BF_sift_det(img_bark[0], img_bark[1])
-    BF_sift_det(img_bark[0], img_bark[2])
-    BF_sift_det(img_bark[0], img_bark[3])
-    BF_sift_det(img_bark[0], img_bark[4])
-    BF_sift_det(img_bark[0], img_bark[5])
+    BF_sift_det(img_ubc[0], img_ubc[1])
+    BF_sift_det(img_ubc[0], img_ubc[2])
+    BF_sift_det(img_ubc[0], img_ubc[3])
+    BF_sift_det(img_ubc[0], img_ubc[4])
+    BF_sift_det(img_ubc[0], img_ubc[5])
 
     # # SIFT FLANN
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[1])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[2])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[3])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[4])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[5])
+    feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[1])
+    feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[2])
+    feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[3])
+    feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[4])
+    feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[5])
 
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[1])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[2])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[3])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[4])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[5])
+    feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[1])
+    feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[2])
+    feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[3])
+    feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[4])
+    feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[5])
 
 
 if __name__ == '__main__':
