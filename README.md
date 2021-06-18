@@ -5,9 +5,11 @@ Download affine images in website: https://www.robots.ox.ac.uk/~vgg/research/aff
 Step 2: Install Libraries:
 
 numpy
+
 $ pip install numpy
 
 Open CV
+
 $ pip install opencv-python==3.4.0.12
 $ pip install opencv-contrib-python==3.4.0.12
 
