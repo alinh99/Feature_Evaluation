@@ -82,7 +82,7 @@ def BF_sift_det(img1, img2):
     print("Recall BF SIFT: {:.2f}".format(recall))
 
     precision_1 = float(correspondences / (correct_matches + correspondences))
-    print("1-precision ORB BF: {:.2f}".format(precision_1))
+    print("1-precision BF SIFT: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches BF SIFT: {correct_matches}")
@@ -145,10 +145,10 @@ def feat_match_FLANN_sift_visualize(img1, img2):
 
     # false_matches = correspondences - correct_matches
     precision = (1 - precision_1)
-    print("Precision ORB BF: {:.2f}".format(precision))
+    print("Precision FLANN SIFT: {:.2f}".format(precision))
 
     false_matches = round(correspondences - correct_matches)
-    print(f"False matches ORB BF: {false_matches}")
+    print(f"False matches FLANN SIFT: {false_matches}")
 
     print()
     return
@@ -176,7 +176,7 @@ def feat_match_FLANN_surf_visualize(img1, img2):
 
     correct_matches = len(good_matches)
     correspondences = len(knn_matches)
-    print(f"All matches of ORB BF: {correspondences}")
+    print(f"All matches of SURF FLANN: {correspondences}")
 
     recall = float(correct_matches / correspondences)
     print("Recall SURF FLANN: {:.2f}".format(recall))
@@ -198,7 +198,7 @@ def feat_match_FLANN_surf_visualize(img1, img2):
 
 
 def append_image_in_folder(path):
-    """Add images into a list"""
+    """Read images from specified folder"""
     images = []
     for filename in glob.glob(path + '*.ppm'):
         # load image
@@ -207,32 +207,37 @@ def append_image_in_folder(path):
     return images
 
 
-# read lst image
-img_bark = append_image_in_folder('img/bark/')
+def run():
+    # read lst image
+    img_bark = append_image_in_folder('img/ubc/')
 
-# ORB BF
-BF_orb_det(img_bark[0], img_bark[1])
-BF_orb_det(img_bark[0], img_bark[2])
-BF_orb_det(img_bark[0], img_bark[3])
-BF_orb_det(img_bark[0], img_bark[4])
-BF_orb_det(img_bark[0], img_bark[5])
+    # ORB BF
+    BF_orb_det(img_bark[0], img_bark[1])
+    BF_orb_det(img_bark[0], img_bark[2])
+    BF_orb_det(img_bark[0], img_bark[3])
+    BF_orb_det(img_bark[0], img_bark[4])
+    BF_orb_det(img_bark[0], img_bark[5])
 
-# SIFT BF
-BF_sift_det(img_bark[0], img_bark[1])
-BF_sift_det(img_bark[0], img_bark[2])
-BF_sift_det(img_bark[0], img_bark[3])
-BF_sift_det(img_bark[0], img_bark[4])
-BF_sift_det(img_bark[0], img_bark[5])
+    # SIFT BF
+    BF_sift_det(img_bark[0], img_bark[1])
+    BF_sift_det(img_bark[0], img_bark[2])
+    BF_sift_det(img_bark[0], img_bark[3])
+    BF_sift_det(img_bark[0], img_bark[4])
+    BF_sift_det(img_bark[0], img_bark[5])
 
-# # SIFT FLANN
-feat_match_FLANN_sift_visualize(img_bark[0], img_bark[1])
-feat_match_FLANN_sift_visualize(img_bark[0], img_bark[2])
-feat_match_FLANN_sift_visualize(img_bark[0], img_bark[3])
-feat_match_FLANN_sift_visualize(img_bark[0], img_bark[4])
-feat_match_FLANN_sift_visualize(img_bark[0], img_bark[5])
+    # # SIFT FLANN
+    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[1])
+    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[2])
+    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[3])
+    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[4])
+    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[5])
 
-feat_match_FLANN_surf_visualize(img_bark[0], img_bark[1])
-feat_match_FLANN_surf_visualize(img_bark[0], img_bark[2])
-feat_match_FLANN_surf_visualize(img_bark[0], img_bark[3])
-feat_match_FLANN_surf_visualize(img_bark[0], img_bark[4])
-feat_match_FLANN_surf_visualize(img_bark[0], img_bark[5])
+    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[1])
+    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[2])
+    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[3])
+    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[4])
+    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[5])
+
+
+if __name__ == '__main__':
+    run()
