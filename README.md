@@ -3,13 +3,13 @@ Download Python on the website: https://www.python.org/downloads/ following the 
 Download affine images in website: https://www.robots.ox.ac.uk/~vgg/research/affine/
 
 Step 2: Install Libraries:
+
 numpy
 $ pip install numpy
 
-
 Open CV
 $ pip install opencv-python==3.4.0.12
-
+$ pip install opencv-contrib-python==3.4.0.12
 
 Step 3: Run Python Project on Command Line
 1.	Using the python Command:
