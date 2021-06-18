@@ -25,8 +25,9 @@ def BF_orb_det(img1, img2):
 
     # best matches in 2 images
     matches = bf.match(descriptors1, descriptors2)
+    matches = sorted(matches, key=lambda x: x.distance)
 
-    correct_matches = len(matches[:300])
+    correct_matches = len(matches[:200])
     correspondences = len(matches)
 
     print(f"All matches of ORB BF: {correspondences}")
@@ -95,6 +96,56 @@ def BF_sift_det(img1, img2):
     print(f"False matches BF SIFT: {false_matches}")
     print()
 
+    return
+
+
+def kaze_match(img1, img2):
+    # load the image and convert it to grayscale
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
+    # initialize the AKAZE descriptor, then detect keypoints and extract
+    # local invariant descriptors from the image
+    detector = cv2.AKAZE_create()
+    (kps1, descs1) = detector.detectAndCompute(gray1, None)
+    (kps2, descs2) = detector.detectAndCompute(gray2, None)
+
+    print("keypoints: {}, descriptors: {}".format(len(kps1), descs1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kps2), descs2.shape))
+
+    # Match the features
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING)
+    matches = bf.knnMatch(descs1, descs2, k=2)  # typo fixed
+
+    # Apply ratio test
+    good_matches = []
+    for m, n in matches:
+        if m.distance < 0.8 * n.distance:
+            good_matches.append([m])
+    correct_matches = len(good_matches)
+    correspondences = len(matches)
+    print(f"All matches of BF AKAZE: {correspondences}")
+
+    recall = float(correct_matches / correspondences)
+    print("Recall BF AKAZE: {:.2f}".format(recall))
+
+    precision_1 = float(correspondences / (correct_matches + correspondences))
+    print("1-precision BF AKAZE: {:.2f}".format(precision_1))
+
+    correct_matches = round(correspondences * recall)
+    print(f"Correct matches BF AKAZE: {correct_matches}")
+
+    # false_matches = correspondences - correct_matches
+    precision = (1 - precision_1)
+    print("Precision BF AKAZE: {:.2f}".format(precision))
+
+    false_matches = round(correspondences - correct_matches)
+    print(f"False matches BF AKAZE: {false_matches}")
+    print()
+    # cv2.drawMatchesKnn expects list of lists as matches.
+    # im3 = cv2.drawMatchesKnn(img1, kps1, img2, kps2, good_matches[1:20], None, flags=2)
+    # cv2.imshow("AKAZE matching", im3)
+    # cv2.waitKey(0)
     return
 
 
@@ -225,13 +276,21 @@ def run():
     BF_sift_det(img_ubc[0], img_ubc[4])
     BF_sift_det(img_ubc[0], img_ubc[5])
 
+    # AKAZE BF
+    kaze_match(img_ubc[0], img_ubc[1])
+    kaze_match(img_ubc[0], img_ubc[2])
+    kaze_match(img_ubc[0], img_ubc[3])
+    kaze_match(img_ubc[0], img_ubc[4])
+    kaze_match(img_ubc[0], img_ubc[5])
+
     # # SIFT FLANN
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[1])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[2])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[3])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[4])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[5])
-
+    
+    # SURF FLANN
     feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[1])
     feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[2])
     feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[3])
