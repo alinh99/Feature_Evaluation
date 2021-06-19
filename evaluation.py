@@ -99,7 +99,7 @@ def BF_sift_det(img1, img2):
     return
 
 
-def kaze_match(img1, img2):
+def AKAZE_BF(img1, img2):
     # load the image and convert it to grayscale
     gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
@@ -278,11 +278,11 @@ def run():
     BF_sift_det(img_ubc[0], img_ubc[5])
 
     # AKAZE BF
-    kaze_match(img_ubc[0], img_ubc[1])
-    kaze_match(img_ubc[0], img_ubc[2])
-    kaze_match(img_ubc[0], img_ubc[3])
-    kaze_match(img_ubc[0], img_ubc[4])
-    kaze_match(img_ubc[0], img_ubc[5])
+    AKAZE_BF(img_ubc[0], img_ubc[1])
+    AKAZE_BF(img_ubc[0], img_ubc[2])
+    AKAZE_BF(img_ubc[0], img_ubc[3])
+    AKAZE_BF(img_ubc[0], img_ubc[4])
+    AKAZE_BF(img_ubc[0], img_ubc[5])
 
     # # SIFT FLANN
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[1])
