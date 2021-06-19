@@ -19,6 +19,8 @@ def BF_orb_det(img1, img2):
     keypoints1, descriptors1 = orb.detectAndCompute(gray1, None)
     keypoints2, descriptors2 = orb.detectAndCompute(gray2, None)
 
+    print("keypoints: {}, descriptors: {}".format(len(keypoints1), descriptors1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(keypoints2), descriptors2.shape))
     # Create a BFMatcher object.
     # It will find all of the matching keypoints on two images
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
@@ -27,8 +29,8 @@ def BF_orb_det(img1, img2):
     matches = bf.match(descriptors1, descriptors2)
     matches = sorted(matches, key=lambda x: x.distance)
 
-    correct_matches = len(matches[:200])
-    correspondences = len(matches)
+    correct_matches = len(matches)
+    correspondences = (len(keypoints1) + len(keypoints2)) / 2
 
     print(f"All matches of ORB BF: {correspondences}")
 
@@ -63,6 +65,9 @@ def BF_sift_det(img1, img2):
     kp1, des1 = sift.detectAndCompute(img1, None)
     kp2, des2 = sift.detectAndCompute(img2, None)
 
+    print("keypoints: {}, descriptors: {}".format(len(kp1), des1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp2), des2.shape))
+
     # Match with BF
     bf = cv2.BFMatcher()
 
@@ -76,7 +81,7 @@ def BF_sift_det(img1, img2):
             good_matches.append([m1])
 
     correct_matches = len(good_matches)
-    correspondences = len(matches)
+    correspondences = round((len(kp1) + len(kp2)) / 2)
     print(f"All matches of BF SIFT: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -100,6 +105,8 @@ def BF_sift_det(img1, img2):
 
 
 def AKAZE_BF(img1, img2):
+    """Calculate evaluation of BF matcher in AKAZE BF: Recall, 1-precision, precision, correct matches,
+    false matches"""
     # load the image and convert it to grayscale
     gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
@@ -120,10 +127,10 @@ def AKAZE_BF(img1, img2):
     # Apply ratio test
     good_matches = []
     for m, n in matches:
-        if m.distance < 0.8 * n.distance:
+        if m.distance < 0.35 * n.distance:
             good_matches.append([m])
     correct_matches = len(good_matches)
-    correspondences = len(matches)
+    correspondences = round((len(kps1) + len(kps2)) / 2)
     print(f"All matches of BF AKAZE: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -162,7 +169,8 @@ def feat_match_FLANN_sift_visualize(img1, img2):
     # find the keypoints and descriptors with SIFT
     kp1, des1 = sift.detectAndCompute(img1, None)
     kp2, des2 = sift.detectAndCompute(img2, None)
-
+    print("keypoints: {}, descriptors: {}".format(len(kp1), des1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp2), des2.shape))
     # FLANN parameters
     FLANN_INDEX_KDTREE = 0
     index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
@@ -177,12 +185,12 @@ def feat_match_FLANN_sift_visualize(img1, img2):
     # check if it is a good match
     good_match = []
     for i, (m1, m2) in enumerate(matches):
-        if m1.distance < 0.9 * m2.distance:
+        if m1.distance < 0.95 * m2.distance:
             matchesMask[i] = [1, 0]
             good_match.append(matchesMask[i])
 
     correct_matches = len(good_match)
-    correspondences = len(matches)
+    correspondences = round((len(kp1) + len(kp2)) / 2)
     print(f"All matches of FLANN SIFT: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -215,18 +223,21 @@ def feat_match_FLANN_surf_visualize(img1, img2):
     kp1, des1 = surf.detectAndCompute(img1, None)
     kp2, des2 = surf.detectAndCompute(img2, None)
 
+    print("keypoints: {}, descriptors: {}".format(len(kp1), des1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp2), des2.shape))
+
     matcher = cv2.DescriptorMatcher_create(cv2.DescriptorMatcher_FLANNBASED)
     knn_matches = matcher.knnMatch(des1, des2, 2)
 
     # -- Filter matches using the Lowe's ratio test
-    ratio_thresh = 0.8
+    ratio_thresh = 0.9
     good_matches = []
     for m, n in knn_matches:
         if m.distance < ratio_thresh * n.distance:
             good_matches.append(m)
 
     correct_matches = len(good_matches)
-    correspondences = len(knn_matches)
+    correspondences = round((len(kp1) + len(kp2)) / 2)
     print(f"All matches of SURF FLANN: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -284,7 +295,7 @@ def run():
     AKAZE_BF(img_ubc[0], img_ubc[4])
     AKAZE_BF(img_ubc[0], img_ubc[5])
 
-    # # SIFT FLANN
+    # SIFT FLANN
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[1])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[2])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[3])
