@@ -9,28 +9,28 @@ from matplotlib import image
 def BF_orb_det(img1, img2):
     """Calculate evaluation of BF matcher in ORB detector: Recall, 1-precision, precision, correct matches,
     false matches"""
-    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+    # gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    # gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 
     # Create our ORB detector and detect keypoints and descriptors
     orb = cv2.ORB_create()
 
     # Find keypoints and descriptors with ORB
-    keypoints1, descriptors1 = orb.detectAndCompute(gray1, None)
-    keypoints2, descriptors2 = orb.detectAndCompute(gray2, None)
+    kp1, des1 = orb.detectAndCompute(img1, None)
+    kp2, des2 = orb.detectAndCompute(img2, None)
 
-    print("keypoints: {}, descriptors: {}".format(len(keypoints1), descriptors1.shape))
-    print("keypoints: {}, descriptors: {}".format(len(keypoints2), descriptors2.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp2), des1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp2), des2.shape))
     # Create a BFMatcher object.
     # It will find all of the matching keypoints on two images
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
 
     # best matches in 2 images
-    matches = bf.match(descriptors1, descriptors2)
+    matches = bf.match(des1, des2)
     matches = sorted(matches, key=lambda x: x.distance)
 
     correct_matches = len(matches)
-    correspondences = (len(keypoints1) + len(keypoints2)) / 2
+    correspondences = round((len(kp1) + len(kp2) / 2))
 
     print(f"All matches of ORB BF: {correspondences}")
 
@@ -74,14 +74,8 @@ def BF_sift_det(img1, img2):
     # knnMatch - visualize descriptors
     matches = bf.knnMatch(des1, des2, k=2)
 
-    # apply David Lowe's ratio test
-    good_matches = []
-    for m1, m2 in matches:
-        if m1.distance < 0.9 * m2.distance:
-            good_matches.append([m1])
-
-    correct_matches = len(good_matches)
-    correspondences = round((len(kp1) + len(kp2)) / 2)
+    correct_matches = len(matches)
+    correspondences = round((len(kp1) + len(kp2) / 2))
     print(f"All matches of BF SIFT: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -114,23 +108,24 @@ def AKAZE_BF(img1, img2):
     # initialize the AKAZE descriptor, then detect keypoints and extract
     # local invariant descriptors from the image
     detector = cv2.AKAZE_create()
-    (kps1, descs1) = detector.detectAndCompute(gray1, None)
-    (kps2, descs2) = detector.detectAndCompute(gray2, None)
+    (kp1, des1) = detector.detectAndCompute(gray1, None)
+    (kp2, des2) = detector.detectAndCompute(gray2, None)
 
-    print("keypoints: {}, descriptors: {}".format(len(kps1), descs1.shape))
-    print("keypoints: {}, descriptors: {}".format(len(kps2), descs2.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp1), des1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp2), des2.shape))
 
     # Match the features
     bf = cv2.BFMatcher(cv2.NORM_HAMMING)
-    matches = bf.knnMatch(descs1, descs2, k=2)  # typo fixed
+    matches = bf.knnMatch(des1, des2, k=2)  # typo fixed
 
-    # Apply ratio test
-    good_matches = []
-    for m, n in matches:
-        if m.distance < 0.35 * n.distance:
-            good_matches.append([m])
-    correct_matches = len(good_matches)
-    correspondences = round((len(kps1) + len(kps2)) / 2)
+    # # Apply ratio test
+    # good_matches = []
+    # for m, n in matches:
+    #     if m.distance < 0.35 * n.distance:
+    #         good_matches.append([m])
+
+    correct_matches = len(matches)
+    correspondences = round((len(kp1) + len(kp2) / 2))
     print(f"All matches of BF AKAZE: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -179,18 +174,8 @@ def feat_match_FLANN_sift_visualize(img1, img2):
     flann = cv2.FlannBasedMatcher(index_params, search_params)
     matches = flann.knnMatch(des1, des2, k=2)
 
-    # create new object
-    matchesMask = [[0, 0] for i in range(len(matches))]
-
-    # check if it is a good match
-    good_match = []
-    for i, (m1, m2) in enumerate(matches):
-        if m1.distance < 0.95 * m2.distance:
-            matchesMask[i] = [1, 0]
-            good_match.append(matchesMask[i])
-
-    correct_matches = len(good_match)
-    correspondences = round((len(kp1) + len(kp2)) / 2)
+    correct_matches = len(matches)
+    correspondences = round((len(kp1) + len(kp2) / 2))
     print(f"All matches of FLANN SIFT: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -227,17 +212,10 @@ def feat_match_FLANN_surf_visualize(img1, img2):
     print("keypoints: {}, descriptors: {}".format(len(kp2), des2.shape))
 
     matcher = cv2.DescriptorMatcher_create(cv2.DescriptorMatcher_FLANNBASED)
-    knn_matches = matcher.knnMatch(des1, des2, 2)
+    matches = matcher.knnMatch(des1, des2, 2)
 
-    # -- Filter matches using the Lowe's ratio test
-    ratio_thresh = 0.9
-    good_matches = []
-    for m, n in knn_matches:
-        if m.distance < ratio_thresh * n.distance:
-            good_matches.append(m)
-
-    correct_matches = len(good_matches)
-    correspondences = round((len(kp1) + len(kp2)) / 2)
+    correct_matches = len(matches)
+    correspondences = round((len(kp1) + len(kp2) / 2))
     print(f"All matches of SURF FLANN: {correspondences}")
 
     recall = float(correct_matches / correspondences)
@@ -272,7 +250,7 @@ def append_image_in_folder(path):
 def run():
     """Run the program"""
     # read lst image
-    img_ubc = append_image_in_folder('img/ubc/')
+    img_ubc = append_image_in_folder('img/bikes/')
 
     # ORB BF
     BF_orb_det(img_ubc[0], img_ubc[1])
