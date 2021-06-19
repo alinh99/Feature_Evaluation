@@ -259,6 +259,7 @@ def append_image_in_folder(path):
 
 
 def run():
+    """Run the program"""
     # read lst image
     img_ubc = append_image_in_folder('img/ubc/')
 
@@ -289,7 +290,7 @@ def run():
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[3])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[4])
     feat_match_FLANN_sift_visualize(img_ubc[0], img_ubc[5])
-    
+
     # SURF FLANN
     feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[1])
     feat_match_FLANN_surf_visualize(img_ubc[0], img_ubc[2])
