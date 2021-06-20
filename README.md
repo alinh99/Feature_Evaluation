@@ -13,6 +13,10 @@ Open CV
 $ pip install opencv-python==3.4.0.12
 $ pip install opencv-contrib-python==3.4.0.12
 
+Matplotlib
+
+$ pip install matplotlib
+
 Step 3: Run Python Project on Command Line
 1.	Using the python Command:
 
