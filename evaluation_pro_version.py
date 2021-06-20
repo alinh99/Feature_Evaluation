@@ -8,7 +8,7 @@ import time
 
 # # BF matcher
 # cách này đôi khi có sự nhầm lẫn khi có một số hình ảnh giống nhau
-def BF_orb_det(img1, img2):
+def BF_ORB_det(img1, img2):
     """Calculate evaluation of BF matcher in ORB detector: Recall, 1-precision, precision, correct matches,
     false matches"""
     start_time_ORB_BF = time.time()
@@ -70,7 +70,7 @@ def BF_orb_det(img1, img2):
 
 
 # # cách này cho kết quả tốt hơn, ổn định hơn
-def BF_sift_det(img1, img2):
+def BF_SIFT_det(img1, img2):
     """Calculate evaluation of BF matcher in SIFT detector: Recall, 1-precision, precision, correct matches,
     false matches"""
     # create our SIFT detector and detect key points and descriptors
@@ -243,7 +243,7 @@ def BRISK_BF(img1, img2):
 
 
 # # visualize FLANN
-def feat_match_FLANN_sift_visualize(img1, img2):
+def feat_match_FLANN_SIFT_visualize(img1, img2):
     """Calculate evaluation of FLANN matcher in SIFT detector: Recall, 1-precision, precision, correct matches,
     false matches"""
     # Initiate SIFT detector
@@ -301,7 +301,7 @@ def feat_match_FLANN_sift_visualize(img1, img2):
     return
 
 
-def feat_match_FLANN_surf_visualize(img1, img2):
+def feat_match_FLANN_SURF_visualize(img1, img2):
     """Calculate evaluation of FLANN matcher in SURF detector: Recall, 1-precision, precision, correct matches,
     false matches"""
     # Initiate SIFT detector
@@ -351,7 +351,7 @@ def feat_match_FLANN_surf_visualize(img1, img2):
     return
 
 
-def feat_match_BF_surf_visualize(img1, img2):
+def feat_match_BF_SURF_visualize(img1, img2):
     """Calculate evaluation of BF matcher in SURF detector: Recall, 1-precision, precision, correct matches,
     false matches"""
     # Initiate SIFT detector
@@ -479,32 +479,32 @@ print("Thời gian thực hiện thuật toán thêm hình ảnh vào thư mục
 def run():
     """Run the program"""
     # ORB BF
-    BF_orb_det(img_bark[0], img_bark[1])
-    BF_orb_det(img_bark[0], img_bark[2])
-    BF_orb_det(img_bark[0], img_bark[3])
-    BF_orb_det(img_bark[0], img_bark[4])
-    BF_orb_det(img_bark[0], img_bark[5])
+    BF_ORB_det(img_bark[0], img_bark[1])
+    BF_ORB_det(img_bark[0], img_bark[2])
+    BF_ORB_det(img_bark[0], img_bark[3])
+    BF_ORB_det(img_bark[0], img_bark[4])
+    BF_ORB_det(img_bark[0], img_bark[5])
 
     # SIFT BF
-    BF_sift_det(img_bark[0], img_bark[1])
-    BF_sift_det(img_bark[0], img_bark[2])
-    BF_sift_det(img_bark[0], img_bark[3])
-    BF_sift_det(img_bark[0], img_bark[4])
-    BF_sift_det(img_bark[0], img_bark[5])
+    BF_SIFT_det(img_bark[0], img_bark[1])
+    BF_SIFT_det(img_bark[0], img_bark[2])
+    BF_SIFT_det(img_bark[0], img_bark[3])
+    BF_SIFT_det(img_bark[0], img_bark[4])
+    BF_SIFT_det(img_bark[0], img_bark[5])
 
     # SIFT FLANN
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[1])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[2])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[3])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[4])
-    feat_match_FLANN_sift_visualize(img_bark[0], img_bark[5])
+    feat_match_FLANN_SIFT_visualize(img_bark[0], img_bark[1])
+    feat_match_FLANN_SIFT_visualize(img_bark[0], img_bark[2])
+    feat_match_FLANN_SIFT_visualize(img_bark[0], img_bark[3])
+    feat_match_FLANN_SIFT_visualize(img_bark[0], img_bark[4])
+    feat_match_FLANN_SIFT_visualize(img_bark[0], img_bark[5])
 
     # SUFT FLANN
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[1])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[2])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[3])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[4])
-    feat_match_FLANN_surf_visualize(img_bark[0], img_bark[5])
+    feat_match_FLANN_SURF_visualize(img_bark[0], img_bark[1])
+    feat_match_FLANN_SURF_visualize(img_bark[0], img_bark[2])
+    feat_match_FLANN_SURF_visualize(img_bark[0], img_bark[3])
+    feat_match_FLANN_SURF_visualize(img_bark[0], img_bark[4])
+    feat_match_FLANN_SURF_visualize(img_bark[0], img_bark[5])
 
     # AKAZE BF
     AKAZE_BF(img_bark[0], img_bark[1])
@@ -521,11 +521,11 @@ def run():
     BRISK_BF(img_bark[0], img_bark[5])
 
     # SURF BF
-    feat_match_BF_surf_visualize(img_bark[0], img_bark[1])
-    feat_match_BF_surf_visualize(img_bark[0], img_bark[2])
-    feat_match_BF_surf_visualize(img_bark[0], img_bark[3])
-    feat_match_BF_surf_visualize(img_bark[0], img_bark[4])
-    feat_match_BF_surf_visualize(img_bark[0], img_bark[5])
+    feat_match_BF_SURF_visualize(img_bark[0], img_bark[1])
+    feat_match_BF_SURF_visualize(img_bark[0], img_bark[2])
+    feat_match_BF_SURF_visualize(img_bark[0], img_bark[3])
+    feat_match_BF_SURF_visualize(img_bark[0], img_bark[4])
+    feat_match_BF_SURF_visualize(img_bark[0], img_bark[5])
 
 
 if __name__ == '__main__':
