@@ -1,7 +1,6 @@
 # feature matching
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 import glob
 from matplotlib import image
 import time
