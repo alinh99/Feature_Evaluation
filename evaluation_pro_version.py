@@ -183,6 +183,63 @@ def AKAZE_BF(img1, img2):
     return
 
 
+def KAZE_BF(img1, img2):
+    """Calculate evaluation of BF matcher in AKAZE BF: Recall, 1-precision, precision, correct matches,
+    false matches"""
+    # load the image and convert it to grayscale
+    start_time_AKAZE_BF = time.time()
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
+    # initialize the KAZE descriptor, then detect keypoints and extract
+    # local invariant descriptors from the image
+    detector = cv2.KAZE_create()
+    (kp1, des1) = detector.detectAndCompute(gray1, None)
+    (kp2, des2) = detector.detectAndCompute(gray2, None)
+    #
+    print("keypoints: {}, descriptors: {}".format(len(kp1), des1.shape))
+    print("keypoints: {}, descriptors: {}".format(len(kp2), des2.shape))
+
+    # Match the features
+    bf = cv2.BFMatcher()
+    matches = bf.knnMatch(des1, des2, k=2)  # typo fixed
+
+    # Apply ratio test
+    good_matches = []
+    for m, n in matches:
+        if m.distance < 0.95 * n.distance:
+            good_matches.append([m])
+
+    correct_matches = len(good_matches)
+    correspondences = len(matches)
+    print(f"All matches of BF KAZE: {correspondences}")
+
+    # Good ratio
+    recall = float(correct_matches / correspondences)
+    print("Recall BF KAZE: {:.2f}".format(recall))
+
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
+    print("1-precision BF KAZE: {:.2f}".format(precision_1))
+
+    correct_matches = round(correspondences * recall)
+    print(f"Correct matches BF KAZE: {correct_matches}")
+
+    # Dispersion ratio
+    precision = (1 - precision_1)
+    print("Precision BF KAZE: {:.2f}".format(precision))
+
+    false_matches = round(correspondences * recall * precision_1 / precision)
+    print(f"False matches BF KAZE: {false_matches}")
+
+    end_time_AKAZE_BF = time.time()
+    over_time_AKAZE_BF = end_time_AKAZE_BF - start_time_AKAZE_BF - - over_time_append_img
+    print("Thời gian thực hiện thuật toán là: {:.2f}".format(over_time_AKAZE_BF))
+
+    print()
+    return
+
+
 def BRISK_BF(img1, img2):
     """Calculate evaluation of BF matcher in BRISK detector: Recall, 1-precision, precision, correct matches,
     false matches"""
@@ -526,6 +583,13 @@ def run():
     feat_match_BF_SURF_visualize(img_bark[0], img_bark[3])
     feat_match_BF_SURF_visualize(img_bark[0], img_bark[4])
     feat_match_BF_SURF_visualize(img_bark[0], img_bark[5])
+    
+    # KAZE BF 
+    KAZE_BF(img_bark[0], img_bark[1])
+    KAZE_BF(img_bark[0], img_bark[2])
+    KAZE_BF(img_bark[0], img_bark[3])
+    KAZE_BF(img_bark[0], img_bark[4])
+    KAZE_BF(img_bark[0], img_bark[5])
 
 
 if __name__ == '__main__':
