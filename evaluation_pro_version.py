@@ -4,6 +4,7 @@ import numpy as np
 import glob
 from matplotlib import image
 import time
+import sklearn.metrics as sk
 
 
 # # BF matcher
@@ -119,9 +120,6 @@ def BF_sift_det(img1, img2):
     print("Thời gian thực hiện thuật toán là {:.2f}".format(over_time_sift_bf))
 
     print()
-    # draw these matches and see how they performed
-    SIFT_matches = cv2.drawMatchesKnn(img1, kp1, img2, kp2, good_matches, None, flags=2)
-
     return
 
 
@@ -177,7 +175,6 @@ def AKAZE_BF(img1, img2):
     print("Thời gian thực hiện thuật toán là: {:.2f}".format(over_time_AKAZE_BF))
 
     print()
-
     return
 
 
@@ -232,7 +229,7 @@ def BRISK_BF(img1, img2):
     print("Thời gian thực hiện thuật toán là: {:.2f}".format(over_time_BRISK_BF))
 
     print()
-
+    return
 
 ####################################################################
 
@@ -453,6 +450,12 @@ def append_image_in_folder(path):
 
 start_time_append_img = time.time()
 img_bark = append_image_in_folder('img/bark/')
+img_bikes = append_image_in_folder('img/bikes/')
+img_leuven = append_image_in_folder('img/leuven/')
+img_trees = append_image_in_folder('img/trees/')
+img_ubc = append_image_in_folder('img/ubc/')
+img_wall = append_image_in_folder('img/wall/')
+img_graf = append_image_in_folder('img/graf/')
 end_time_append_img = time.time()
 over_time_append_img = (end_time_append_img - start_time_append_img)
 print("Thời gian thực hiện thuật toán thêm hình ảnh vào thư mục có sẵn là {:.2f}s".format(over_time_append_img))
