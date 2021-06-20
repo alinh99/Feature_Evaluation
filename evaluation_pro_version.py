@@ -4,7 +4,6 @@ import numpy as np
 import glob
 from matplotlib import image
 import time
-import sklearn.metrics as sk
 
 
 # # BF matcher
@@ -44,20 +43,22 @@ def BF_orb_det(img1, img2):
 
     print(f"All matches of ORB BF: {correspondences}")
 
+    # Good ratio
     recall = float(correct_matches / correspondences)
     print("Recall ORB BF: {:.2f}".format(recall))
 
-    precision_1 = float(correspondences / (correct_matches + correspondences))
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
     print("1-precision ORB BF: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches ORB BF: {correct_matches}")
 
-    # false_matches = correspondences - correct_matches
+    # Dispersion ratio
     precision = (1 - precision_1)
     print("Precision ORB BF: {:.2f}".format(precision))
 
-    false_matches = round(correspondences - correct_matches)
+    false_matches = round(correspondences * recall * precision_1 / precision)
     print(f"False matches ORB BF: {false_matches}")
 
     end_time_ORB_BF = time.time()
@@ -99,20 +100,22 @@ def BF_sift_det(img1, img2):
     correspondences = len(matches)
     print(f"All matches of BF SIFT: {correspondences}")
 
+    # Good ratio
     recall = float(correct_matches / correspondences)
     print("Recall BF SIFT: {:.2f}".format(recall))
 
-    precision_1 = float(correspondences / (correct_matches + correspondences))
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
     print("1-precision ORB BF: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches BF SIFT: {correct_matches}")
 
-    # false_matches = correspondences - correct_matches
+    # Dispersion ratio
     precision = (1 - precision_1)
     print("Precision BF SIFT: {:.2f}".format(precision))
 
-    false_matches = round(correspondences - correct_matches)
+    false_matches = round(correspondences * recall * precision_1 / precision)
     print(f"False matches BF SIFT: {false_matches}")
 
     end_time_SIFT_BF = time.time()
@@ -154,20 +157,22 @@ def AKAZE_BF(img1, img2):
     correspondences = len(matches)
     print(f"All matches of BF AKAZE: {correspondences}")
 
+    # Good ratio
     recall = float(correct_matches / correspondences)
     print("Recall BF AKAZE: {:.2f}".format(recall))
 
-    precision_1 = float(correspondences / (correct_matches + correspondences))
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
     print("1-precision BF AKAZE: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches BF AKAZE: {correct_matches}")
 
-    # false_matches = correspondences - correct_matches
+    # Dispersion ratio
     precision = (1 - precision_1)
     print("Precision BF AKAZE: {:.2f}".format(precision))
 
-    false_matches = round(correspondences - correct_matches)
+    false_matches = round(correspondences * recall * precision_1 / precision)
     print(f"False matches BF AKAZE: {false_matches}")
 
     end_time_AKAZE_BF = time.time()
@@ -208,20 +213,22 @@ def BRISK_BF(img1, img2):
     correspondences = len(matches)
     print(f"All matches of BF BRISK: {correspondences}")
 
+    # Good ratio
     recall = float(correct_matches / correspondences)
     print("Recall BF BRISK: {:.2f}".format(recall))
 
-    precision_1 = float(correspondences / (correct_matches + correspondences))
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
     print("1-precision BF BRISK: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches BF BRISK: {correct_matches}")
 
-    # false_matches = correspondences - correct_matches
+    # Dispersion ratio
     precision = (1 - precision_1)
     print("Precision BF BRISK: {:.2f}".format(precision))
 
-    false_matches = round(correspondences - correct_matches)
+    false_matches = round(correspondences * recall * precision_1 / precision)
     print(f"False matches BF BRISK: {false_matches}")
 
     end_time_BRISK_BF = time.time()
@@ -230,6 +237,7 @@ def BRISK_BF(img1, img2):
 
     print()
     return
+
 
 ####################################################################
 
@@ -268,20 +276,22 @@ def feat_match_FLANN_sift_visualize(img1, img2):
     correspondences = len(matches)
     print(f"All matches of FLANN SIFT: {correspondences}")
 
+    # Good ratio
     recall = float(correct_matches / correspondences)
     print("Recall FLANN SIFT: {:.2f}".format(recall))
 
-    precision_1 = float(correspondences / (correct_matches + correspondences))
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
     print("1-precision FLANN SIFT: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches FLANN SIFT: {correct_matches}")
 
-    # false_matches = correspondences - correct_matches
+    # Dispersion ratio
     precision = (1 - precision_1)
     print("Precision FLANN SIFT: {:.2f}".format(precision))
 
-    false_matches = round(correspondences - correct_matches)
+    false_matches = round(correspondences * recall * precision_1 / precision)
     print(f"False matches FLANN SIFT: {false_matches}")
 
     end_time_SIFT_FLANN = time.time()
@@ -315,20 +325,22 @@ def feat_match_FLANN_surf_visualize(img1, img2):
     correspondences = len(knn_matches)
     print(f"All matches of SURF FLANN: {correspondences}")
 
+    # Good ratio
     recall = float(correct_matches / correspondences)
     print("Recall SURF FLANN: {:.2f}".format(recall))
 
-    precision_1 = float(correspondences / (correct_matches + correspondences))
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
     print("1-precision SURF FLANN: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches SURF FLANN: {correct_matches}")
 
-    # false_matches = correspondences - correct_matches
+    # Dispersion ratio
     precision = (1 - precision_1)
     print("Precision SURF FLANN: {:.2f}".format(precision))
 
-    false_matches = round(correspondences - correct_matches)
+    false_matches = round(correspondences * recall * precision_1 / precision)
     print(f"False matches SURF FLANN: {false_matches}")
 
     end_time_SURF_FLANN = time.time()
@@ -363,20 +375,22 @@ def feat_match_BF_surf_visualize(img1, img2):
     correspondences = len(matches)
     print(f"All matches of SURF BF: {correspondences}")
 
+    # Good ratio
     recall = float(correct_matches / correspondences)
     print("Recall SURF BF: {:.2f}".format(recall))
 
-    precision_1 = float(correspondences / (correct_matches + correspondences))
+    # Bad ratio
+    precision_1 = float((correspondences - correct_matches) / correspondences)
     print("1-precision SURF BF: {:.2f}".format(precision_1))
 
     correct_matches = round(correspondences * recall)
     print(f"Correct matches SURF BF: {correct_matches}")
 
-    # false_matches = correspondences - correct_matches
+    # Dispersion ratio
     precision = (1 - precision_1)
     print("Precision SURF BF: {:.2f}".format(precision))
 
-    false_matches = round(correspondences - correct_matches)
+    false_matches = round(correspondences * recall * precision_1 / precision)
     print(f"False matches SURF BF: {false_matches}")
 
     end_time_SURF_BF = time.time()
@@ -439,7 +453,7 @@ def jpeg_compress_img(img, jpeg_quality=95):
 
 
 def append_image_in_folder(path):
-    """Return to the images into a list of the image"""
+    """Return to an image in specified folder(images must be ppm files)"""
     images = []
     for filename in glob.glob(path + '*.ppm'):
         # load image
