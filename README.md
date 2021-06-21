@@ -11,6 +11,7 @@ $ pip install numpy
 Open CV
 
 $ pip install opencv-python==3.4.0.12
+
 $ pip install opencv-contrib-python==3.4.0.12
 
 Matplotlib
