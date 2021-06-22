@@ -3,8 +3,8 @@ from evaluation import BF_ORB_precision_1, BF_ORB_precision, BF_ORB_recall, BF_A
     BF_SIFT_recall, BF_SIFT_precision, BF_SIFT_precision_1, BF_BRISK_recall, BF_BRISK_precision, BF_KAZE_precision, \
     BF_BRISK_precision_1, append_image_in_folder
 import matplotlib.pyplot as plt
-
-img = append_image_in_folder('E:\\VNUKUniversity\\ThirdYear\\Internship\\FeatureExercises\\img\\ubc\\')
+path = "E:\\VNUKUniversity\\ThirdYear\\Internship\\FeatureExercises\\img\\ubc\\"
+img = append_image_in_folder(path)
 
 
 def BF_SURF_average_precision_1():

@@ -116,11 +116,14 @@ def BF_ORB_false_matches(img1, img2):
 def BF_AKAZE_keypoint(img1, img2):
     """Return length of keypoint BF AKAZE"""
     # create our SIFT detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     akaze = cv2.AKAZE_create()
 
     # Find the key points and descriptors with SIFT
-    kp1 = akaze.detect(img1, None)
-    kp2 = akaze.detect(img2, None)
+    kp1 = akaze.detect(gray1, None)
+    kp2 = akaze.detect(gray2, None)
 
     return [len(kp1), len(kp2)]
 
@@ -128,11 +131,14 @@ def BF_AKAZE_keypoint(img1, img2):
 def BF_AKAZE_matches(img1, img2):
     """Return all matches(correspondences) of BF AKAZE"""
     # create our SIFT detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     akaze = cv2.AKAZE_create()
 
     # Find the key points and descriptors with SIFT
-    kp1, des1 = akaze.detectAndCompute(img1, None)
-    kp2, des2 = akaze.detectAndCompute(img2, None)
+    kp1, des1 = akaze.detectAndCompute(gray1, None)
+    kp2, des2 = akaze.detectAndCompute(gray2, None)
 
     # Match the features
     bf = cv2.BFMatcher(cv2.NORM_HAMMING)
@@ -208,11 +214,13 @@ def BF_AKAZE_false_matches(img1, img2):
 def BF_KAZE_keypoint(img1, img2):
     """Return length of keypoint BF KAZE"""
     # create our KAZE detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
     kaze = cv2.KAZE_create()
 
     # Find the key points and descriptors with KAZE
-    kp1 = kaze.detect(img1, None)
-    kp2 = kaze.detect(img2, None)
+    kp1 = kaze.detect(gray1, None)
+    kp2 = kaze.detect(gray2, None)
 
     return [len(kp1), len(kp2)]
 
@@ -220,11 +228,14 @@ def BF_KAZE_keypoint(img1, img2):
 def BF_KAZE_matches(img1, img2):
     """Return all matches(correspondences) of BF AKAZE"""
     # create our SIFT detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     kaze = cv2.KAZE_create()
 
     # Find the key points and descriptors with SIFT
-    kp1, des1 = kaze.detectAndCompute(img1, None)
-    kp2, des2 = kaze.detectAndCompute(img2, None)
+    kp1, des1 = kaze.detectAndCompute(gray1, None)
+    kp2, des2 = kaze.detectAndCompute(gray2, None)
 
     # Match the features
     bf = cv2.BFMatcher()
@@ -300,11 +311,14 @@ def BF_KAZE_false_matches(img1, img2):
 def BF_BRISK_keypoint(img1, img2):
     """Return length of keypoint BF BRISK"""
     # create our KAZE detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     brisk = cv2.BRISK_create()
 
     # Find the key points and descriptors with KAZE
-    kp1 = brisk.detect(img1, None)
-    kp2 = brisk.detect(img2, None)
+    kp1 = brisk.detect(gray1, None)
+    kp2 = brisk.detect(gray2, None)
 
     return [len(kp1), len(kp2)]
 
@@ -393,11 +407,14 @@ def BF_BRISK_false_matches(img1, img2):
 def BF_SIFT_keypoint(img1, img2):
     """Return length of keypoint BF SIFT"""
     # create our SIFT detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     sift = cv2.xfeatures2d.SIFT_create()
 
     # Find the key points and descriptors with SIFT
-    kp1 = sift.detect(img1, None)
-    kp2 = sift.detect(img2, None)
+    kp1 = sift.detect(gray1, None)
+    kp2 = sift.detect(gray2, None)
 
     return [len(kp1), len(kp2)]
 
@@ -405,11 +422,14 @@ def BF_SIFT_keypoint(img1, img2):
 def BF_SIFT_matches(img1, img2):
     """Return all matches(correspondences) of BF SIFT"""
     # create our SIFT detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     sift = cv2.xfeatures2d.SIFT_create()
 
     # Find the key points and descriptors with SIFT
-    kp1, des1 = sift.detectAndCompute(img1, None)
-    kp2, des2 = sift.detectAndCompute(img2, None)
+    kp1, des1 = sift.detectAndCompute(gray1, None)
+    kp2, des2 = sift.detectAndCompute(gray2, None)
 
     # Match with BF
     bf = cv2.BFMatcher()
@@ -486,11 +506,14 @@ def BF_SIFT_false_matches(img1, img2):
 def BF_SURF_keypoint(img1, img2):
     """Return length of keypoint BF SURF"""
     # create our SIFT detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     surf = cv2.xfeatures2d.SURF_create(hessianThreshold=400)
 
     # Find the key points and descriptors with SIFT
-    kp1 = surf.detect(img1, None)
-    kp2 = surf.detect(img2, None)
+    kp1 = surf.detect(gray1, None)
+    kp2 = surf.detect(gray2, None)
 
     return [len(kp1), len(kp2)]
 
@@ -498,11 +521,14 @@ def BF_SURF_keypoint(img1, img2):
 def BF_SURF_matches(img1, img2):
     """Return all matches(correspondences) of BF SURF"""
     # create our SURF detector and detect key points and descriptors
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     surf = cv2.xfeatures2d.SURF_create(hessianThreshold=400)
 
     # Find the key points and descriptors with SURF
-    kp1, des1 = surf.detectAndCompute(img1, None)
-    kp2, des2 = surf.detectAndCompute(img2, None)
+    kp1, des1 = surf.detectAndCompute(gray1, None)
+    kp2, des2 = surf.detectAndCompute(gray2, None)
 
     # Match with BF
     bf = cv2.BFMatcher()
