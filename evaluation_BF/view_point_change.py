@@ -4,7 +4,7 @@ from evaluation import BF_ORB_precision_1, BF_ORB_precision, BF_ORB_recall, BF_A
     BF_BRISK_precision_1, append_image_in_folder
 import matplotlib.pyplot as plt
 
-img = append_image_in_folder('../img/wall/')
+img = append_image_in_folder('E:\\VNUKUniversity\\ThirdYear\\Internship\\FeatureExercises\\img\\wall\\')
 
 
 def BF_SURF_average_precision_1():
@@ -350,7 +350,7 @@ def plot_precision_1():
     plt.scatter(names, values)
     plt.subplot(133)
     plt.plot(names, values)
-    plt.suptitle('Precision Plotting in Viewpoint Changes images')
+    plt.suptitle('1 - Precision Plotting in Viewpoint Changes images')
 
     return plt.show()
 
